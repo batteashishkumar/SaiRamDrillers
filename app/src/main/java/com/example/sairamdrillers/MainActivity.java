@@ -130,6 +130,7 @@ TextView tv_totalamt,tv_pendingamt;
                 holder.tv_pending_color.setTextColor(getResources().getColor(R.color.green));
 
             }
+
             else
             {
                 holder.tv_status.setText("Payment Pending");
