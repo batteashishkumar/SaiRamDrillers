@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CreateCustomer">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:background="@color/appcolor">
+        <androidx.cardview.widget.CardView
+            app:cardCornerRadius="15sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:padding="15dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:layout_marginTop="15dp">
+                <EditText
+                    android:id="@+id/et_CustName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter Customer Name:"
+                    android:maxLength="32"
+                    android:background="@drawable/editext_sty"
+                    android:padding="10dp"
+                    android:layout_margin="5dp"
+                    >
+
+                </EditText>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:weightSum="2"
+                    android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/et_place"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:hint="Place"
+                        android:background="@drawable/editext_sty"
+                        android:padding="10dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1">
+                    </EditText>
+                    <EditText
+                        android:id="@+id/et_number"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:inputType="number"
+                        android:background="@drawable/editext_sty"
+                        android:padding="10dp"
+                        android:layout_marginLeft="5dp"
+                        android:hint="Phone">
+                    </EditText>
+
+                </LinearLayout>
+                <EditText
+                    android:id="@+id/et_amount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Amount"
+                    android:inputType="number"
+                    android:background="@drawable/editext_sty"
+                    android:padding="10dp"
+                    android:layout_margin="5dp">
+                </EditText>
+
+                <Button
+                    android:id="@+id/btn_save"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:padding="5dp"
+                    android:background="@drawable/btn_sty"
+                    android:textColor="@color/white"
+                    android:text="Save">
+
+                </Button>
+
+            </LinearLayout>
+
+
+
+        </androidx.cardview.widget.CardView>
+
+
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
