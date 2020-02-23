@@ -128,7 +128,7 @@
                     android:text="11Jan2019/10:53"
                     android:layout_gravity="right|bottom"
                     android:gravity="right|bottom"
-                    android:textColor="@color/appcolor">
+                    android:textColor="@color/black">
 
                 </TextView>
 
