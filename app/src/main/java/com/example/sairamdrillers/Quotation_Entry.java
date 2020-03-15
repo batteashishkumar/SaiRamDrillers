@@ -9,12 +9,16 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.PageSize;
@@ -28,10 +32,12 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.Vector;
 
 public class Quotation_Entry extends AppCompatActivity {
 RecyclerView rv_Quotation;
 LinearLayout ll_quotationswipe;
+Vector<QuotationDo> vecQuotationDo=new Vector<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +46,7 @@ LinearLayout ll_quotationswipe;
         ll_quotationswipe=findViewById(R.id.ll_quotationswipe);
         rv_Quotation.setHasFixedSize(true);
         rv_Quotation.setLayoutManager(new LinearLayoutManager(this));
+        buildquotationdo();
         rv_Quotation.setAdapter(new QuotationAdapter());
 
         ll_quotationswipe.setOnClickListener(new View.OnClickListener() {
@@ -51,15 +58,90 @@ LinearLayout ll_quotationswipe;
 
 
     }
+
+    private void buildquotationdo() {
+        QuotationDo quotationDo=new QuotationDo();
+        quotationDo.idsn="1";
+        quotationDo.range="1-100";
+        vecQuotationDo.add(quotationDo);
+        QuotationDo quotationDo2=new QuotationDo();
+        quotationDo2.idsn="2";
+        quotationDo2.range="100-200";
+        vecQuotationDo.add(quotationDo2);
+        QuotationDo quotationDo3=new QuotationDo();
+        quotationDo3.idsn="3";
+        quotationDo3.range="200-300";
+        vecQuotationDo.add(quotationDo3);
+
+    }
+
     public class QuotationAdapter extends RecyclerView.Adapter<QuotationAdapter.MyViewHolder> {
 
+        public QuotationAdapter() {
+        }
+
         public class MyViewHolder extends RecyclerView.ViewHolder {
-            TextView tv_amt_cell,tv_type_cell,tv_datetime;
+            TextView tv_range, tv_sno;
+            EditText ev_feets, ev_rateperfeet, ev_rangeamount;
+
             public MyViewHolder(View v) {
                 super(v);
-//                tv_amt_cell=v.findViewById(R.id.tv_amt_cell);
-//                tv_type_cell=v.findViewById(R.id.tv_type_cell);
-//                tv_datetime=v.findViewById(R.id.tv_datetime);
+                tv_sno = v.findViewById(R.id.tv_sno);
+                tv_range = v.findViewById(R.id.tv_range);
+                ev_feets = v.findViewById(R.id.ev_feets);
+                ev_rateperfeet = v.findViewById(R.id.ev_rateperfeet);
+                ev_rangeamount = v.findViewById(R.id.ev_rangeamount);
+
+                ev_rangeamount.setClickable(false);
+                ev_rangeamount.setEnabled(false);
+
+                ev_feets.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        try{
+                            if(s.toString().equalsIgnoreCase(""))
+                                vecQuotationDo.get(getAdapterPosition()).feets="0";
+                                else
+                            vecQuotationDo.get(getAdapterPosition()).feets=s.toString();
+                            vecQuotationDo.get(getAdapterPosition()).rangeamount= (Double.valueOf(vecQuotationDo.get(getAdapterPosition()).feets)*Double.valueOf(vecQuotationDo.get(getAdapterPosition()).rateperfeet))+"";
+                            ev_rangeamount.setText(vecQuotationDo.get(getAdapterPosition()).rangeamount);
+                        }catch (Exception e){
+
+                        }
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+
+                    }
+                });
+                ev_rateperfeet.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        if(s.toString().equalsIgnoreCase(""))
+                            vecQuotationDo.get(getAdapterPosition()).rateperfeet="0";
+                        else
+                        vecQuotationDo.get(getAdapterPosition()).rateperfeet=s.toString();
+                        vecQuotationDo.get(getAdapterPosition()).rangeamount= (Double.valueOf(vecQuotationDo.get(getAdapterPosition()).feets)*Double.valueOf(vecQuotationDo.get(getAdapterPosition()).rateperfeet))+"";
+                        ev_rangeamount.setText(vecQuotationDo.get(getAdapterPosition()).rangeamount);
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+
+                    }
+                });
             }
         }
         @Override
@@ -74,9 +156,18 @@ LinearLayout ll_quotationswipe;
 
         @Override
         public void onBindViewHolder(MyViewHolder holder, int position) {
-//            holder.tv_amt_cell.setText(vecPaymentsofCustomers.get(position).paymentAmount);
-//            holder.tv_type_cell.setText(vecPaymentsofCustomers.get(position).paymentType);
-//            holder.tv_datetime.setText(vecPaymentsofCustomers.get(position).payment_datetime);
+            try{
+                if(vecQuotationDo.get(position)!=null){
+                    holder.tv_sno.setText(vecQuotationDo.get(position).idsn);
+                    holder.tv_range.setText(vecQuotationDo.get(position).range);
+                }
+            }catch (Exception e){
+
+            }
+
+
+
+
 
 
         }
@@ -84,7 +175,23 @@ LinearLayout ll_quotationswipe;
         public int getItemCount() {
             return 30;
         }
+
+        @Override
+        public int getItemViewType(int position) {
+            return position;
+        }
     }
+
+
+
+
+
+
+
+
+
+
+
 
     private void createPdf(String sometext){
 
@@ -104,12 +211,8 @@ LinearLayout ll_quotationswipe;
             document.addAuthor("betterThanZero");
             document.addCreationDate();
             document.addProducer();
-//            document.addCreator("MySampleCode.com");
-//            document.addTitle("Demo for iText XMLWorker");
-            document.setPageSize(PageSize.A4);
-//            document.add(new Paragraph("Sigueme en Twitter!Sigueme en Twitter!Sigueme en Twitter!Sigueme en Twitter!Sigueme en Twitter!Sigueme en Twitter!Sigueme en Twitter!Sigueme en Twitter!Sigueme en Twitter!Sigueme en Twitter!Sigueme en Twitter!Sigueme en Twitter!Sigueme en Twitter!Sigueme en Twitter!Sigueme en Twitter!Sigueme en Twitter!Sigueme en Twitter!"));
 
-//            document.add(new Paragraph("@DavidHackro"));
+            document.setPageSize(PageSize.A4);
 
             XMLWorkerHelper worker = XMLWorkerHelper.getInstance();
             worker.parseXHtml(pdfWriter, document, fis);
@@ -197,7 +300,8 @@ LinearLayout ll_quotationswipe;
                 "\t\n" +
                 "      </div>\n" +
                 "\t  \n" +
-                "<p style=\"text-align:left;margin-left: 15px; margin-bottom: 5px; margin-right: 15px;\">Name:Batte Ashish Kumar<span style=\"float:right;\">Date: 1st March 2020</span></p>\n" +
+                "<p style=\"text-align:left;margin-left: 15px; margin-bottom: 5px; margin-right: 15px;\">Date: 1st March 2020</p>\n" +
+                "<p style=\"text-align:left;margin-left: 15px; margin-bottom: 5px; margin-right: 15px;\">Name:Batte Ashish Kumar</p>\n" +
                 "      <div>\n" +
                 "        <table>\n" +
                 "          <tr>\n" +
@@ -206,14 +310,7 @@ LinearLayout ll_quotationswipe;
                 "            <th style=\"border-right: 1px solid #dddddd;\">FEETS</th>\n" +
                 "\t\t\t<th style=\"border-right: 1px solid #dddddd;\">RATES</th>\n" +
                 "            <th style=\"border-right: 1px solid #dddddd;\">AMOUNT</th>\n" +
-                "          </tr>\n" +
-                "          <tr>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;border-left: 1px solid #dddddd;\">1</td>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;\">001 - 100 ft</td>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;\">100</td>\n" +
-                "\t\t\t <td style=\"border-right: 1px solid #dddddd;\">30.00</td>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;\">3000.00</td>\n" +
-                "          </tr>\n" +
+                "          </tr>\n" +getQuotation()+
                 "\t\t  <tr>\n" +
                 "            <td style=\"border-right: 1px solid #dddddd;border-left: 1px solid #dddddd;\">1</td>\n" +
                 "            <td style=\"border-right: 1px solid #dddddd;\">001 - 100 ft</td>\n" +
@@ -320,14 +417,30 @@ LinearLayout ll_quotationswipe;
                 "\t  <p style=\"text-align:left;font-weight: bold;  margin-right: 15px;\">Flushing 6 1/2\" Borewells Per Feet<span style=\"float:right;\">Amount : 0.00</span></p>\n" +
                 "\t  <p style=\"text-align:left;font-weight: bold;  margin-right: 15px;\">Transport and Labour Charges<span style=\"float:right;\">Amount : 0.00</span></p>\n" +
                 "\t  \n" +
-                "\t  <p style=\"text-align:left;font-weight: bold; margin-top: 10px; margin-right: 15px;\">&nbsp;&nbsp;<span style=\"float:right;\">Total Amount : 800.00</span></p>\n" +
-                "\t   <p style=\"text-align:left;font-weight: bold; margin-top: 20px; margin-right: 15px;\"><font size=\"5\" >&nbsp;&nbsp;<span style=\"float:right;color:red;\">from<b> Sai Ram Drillers</b></span></font></p>\n" +
+                "\t  <p style=\"text-align:left;font-weight: bold; margin:0px;\"><span style=\"float:right;\">Total Amount : 800.00</span></p>\n" +
+                "\t   <p style=\"text-align:left;font-weight: bold; margin-top:10px;\"><font size=\"6\" ><span style=\"float:right;color:red;\">from<b> Sai Ram Drillers</b></span></font></p>\n" +
                 "\n" +
                 "\t  </div>\n" +
                 "</div>\n" +
                 "  </body>\n" +
                 "</html>\n";
         return  exampleString;
+    }
+
+    private String getQuotation() {
+        String quotationhtmlinner="";
+        for (int i=0;i<vecQuotationDo.size();i++)
+        {
+            quotationhtmlinner=quotationhtmlinner+"          <tr>\n" +
+                    "            <td style=\"border-right: 1px solid #dddddd;border-left: 1px solid #dddddd;\">"+vecQuotationDo.get(i).idsn+"</td>\n" +
+                    "            <td style=\"border-right: 1px solid #dddddd;\">"+vecQuotationDo.get(i).range+" ft</td>\n" +
+                    "            <td style=\"border-right: 1px solid #dddddd;\">"+vecQuotationDo.get(i).feets+"</td>\n" +
+                    "\t\t\t <td style=\"border-right: 1px solid #dddddd;\">"+vecQuotationDo.get(i).rateperfeet+".00</td>\n" +
+                    "            <td style=\"border-right: 1px solid #dddddd;\">"+vecQuotationDo.get(i).rangeamount+"</td>\n" +
+                    "          </tr>\n";
+        }
+
+        return quotationhtmlinner;
     }
 
     private String getbitmap() {

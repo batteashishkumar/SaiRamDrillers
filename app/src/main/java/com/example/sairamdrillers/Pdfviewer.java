@@ -35,7 +35,7 @@ PDFView pdfView;
                     share.setType("application/pdf");
                     share.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     share.putExtra(Intent.EXTRA_STREAM, uri);
-                    share.setPackage("com.whatsapp");
+//                    share.setPackage("com.whatsapp");
                     startActivity(share);
                 }
                 catch (Exception e){

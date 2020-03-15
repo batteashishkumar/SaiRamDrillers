@@ -39,11 +39,19 @@ public class CreateCustomer extends AppCompatActivity {
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(et_CustName.getText().toString()==null||et_CustName.getText().toString().equalsIgnoreCase(""))
+                if(et_CustName.getText().toString()==null||et_CustName.getText().toString().equalsIgnoreCase("")||et_amount.getText().toString()==null||et_amount.getText().toString().equalsIgnoreCase(""))
                 {
+                    String alert_message="";
+                    if (et_CustName.getText().toString()==null||et_CustName.getText().toString().equalsIgnoreCase(""))
+                    {
+                        alert_message="-Enter Customer Name\n";
+                    }
+                     if(et_amount.getText().toString()==null||et_amount.getText().toString().equalsIgnoreCase("")) {
+                        alert_message=alert_message+"-Enter Amount \n";
+                    }
                     try
                     {
-                        Dialoginstance dialoginstance=new Dialoginstance(CreateCustomer.this,80,20,"Alert_title","Please enter the name");
+                        Dialoginstance dialoginstance=new Dialoginstance(CreateCustomer.this,80,30,"ALERT",""+alert_message);
                         final Dialog dialog=dialoginstance.getdialoginstance();
                         Button btn_ok=dialoginstance.getBtn_ok();
                         btn_ok.setOnClickListener(new View.OnClickListener() {

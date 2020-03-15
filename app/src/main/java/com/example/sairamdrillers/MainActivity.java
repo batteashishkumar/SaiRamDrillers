@@ -132,39 +132,46 @@ TextView tv_totalamt,tv_pendingamt,tv_writequote;
 
         @Override
         public void onBindViewHolder(MyViewHolder holder, int position) {
-            holder.tv_custname.setText(vecCustomers.get(position).name);
-            holder.tv_datetime.setText(vecCustomers.get(position).dateandtime);
-            String totalamount=vecCustomers.get(position).amount;
-            String paid=new PaymentDA(getApplicationContext()).getsumofallpaymentsofcustomer(vecCustomers.get(position).id);
-            if (totalamount==null)
-                totalamount="0";
-            if (paid==null)
-                paid="0";
-            int pending=Integer.parseInt(totalamount)-Integer.parseInt(paid);
-            String pendingstr=String.valueOf(pending);
-            holder.tv_total.setText(totalamount);
-            holder.tv_paid.setText(paid);
-            holder.tv_pending.setText(pendingstr);
-            if (pending<=0)
-            {
-                holder.tv_status.setText("Payment Completed");
-                holder.tv_status.setTextColor(getResources().getColor(R.color.green));
-                holder.tv_pending.setTextColor(getResources().getColor(R.color.green));
-                holder.tv_pending_color.setTextColor(getResources().getColor(R.color.green));
+            try {
+                holder.tv_custname.setText(vecCustomers.get(position).name);
+                holder.tv_datetime.setText(vecCustomers.get(position).dateandtime);
+                String totalamount=vecCustomers.get(position).amount;
+                String paid=new PaymentDA(getApplicationContext()).getsumofallpaymentsofcustomer(vecCustomers.get(position).id);
+                if(totalamount.equalsIgnoreCase(""))
+                    totalamount="0";
+                if(paid.equalsIgnoreCase(""))
+                    paid="0";
+                if (totalamount==null)
+                    totalamount="0";
+                if (paid==null)
+                    paid="0";
+                int pending=Integer.parseInt(totalamount)-Integer.parseInt(paid);
+                String pendingstr=String.valueOf(pending);
+                holder.tv_total.setText(totalamount);
+                holder.tv_paid.setText(paid);
+                holder.tv_pending.setText(pendingstr);
+                if (pending<=0)
+                {
+                    holder.tv_status.setText("Payment Completed");
+                    holder.tv_status.setTextColor(getResources().getColor(R.color.green));
+                    holder.tv_pending.setTextColor(getResources().getColor(R.color.green));
+                    holder.tv_pending_color.setTextColor(getResources().getColor(R.color.green));
 
+                }
+
+
+                else
+                {
+                    holder.tv_status.setText("Payment Pending");
+                    holder.tv_status.setTextColor(getResources().getColor(R.color.red));
+                    holder.tv_pending.setTextColor(getResources().getColor(R.color.red));
+                    holder.tv_pending_color.setTextColor(getResources().getColor(R.color.red));
+                }
             }
-
-
-            else
+            catch (Exception e)
             {
-                holder.tv_status.setText("Payment Pending");
-                holder.tv_status.setTextColor(getResources().getColor(R.color.red));
-                holder.tv_pending.setTextColor(getResources().getColor(R.color.red));
-                holder.tv_pending_color.setTextColor(getResources().getColor(R.color.red));
+                e.printStackTrace();
             }
-
-
-
         }
         @Override
         public int getItemCount() {

@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +33,7 @@ public class CustomerDashboard extends AppCompatActivity {
     Button btn_newpayment,btn_settlepending;
     String totalamount="";
     Vector<PaymentDo> vecPaymentsofCustomers=new Vector<PaymentDo>();
-    int amountpaid=0;
+    int amountpaid=0,pendingamt=0;
     PaymentAdapter paymentAdapter;
 
     @Override
@@ -74,6 +76,14 @@ public class CustomerDashboard extends AppCompatActivity {
         btn_newpayment.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
+
+
+
+
+
+
+
+
         PaymentDo paymentDo=new PaymentDo();
         if(et_newpayment.getText().toString().equalsIgnoreCase("")||et_newpayment.getText().toString().equalsIgnoreCase("0")){
             Toast.makeText(getApplicationContext(),"Enter Amount Greater Than Zero",Toast.LENGTH_SHORT).show();
@@ -106,14 +116,40 @@ public class CustomerDashboard extends AppCompatActivity {
     private void loaddata() {
 
         totalamount=new CustomerDA(this).getCustomertotalamount(customerDo.id);
+        if(totalamount.equalsIgnoreCase(""))
+            totalamount="0";
         tv_totalamt.setText(totalamount);
         vecPaymentsofCustomers=new PaymentDA(this).getallpaymentsofcustomer(customerDo.id);
         amountpaid=0;
         for(int i=0;i<vecPaymentsofCustomers.size();i++){
             amountpaid=amountpaid+Integer.valueOf(vecPaymentsofCustomers.get(i).paymentAmount);
         }
+        pendingamt=Integer.valueOf(totalamount)-Integer.valueOf(amountpaid);
         tv_amountpaid.setText(String.valueOf(amountpaid));
-        tv_pendingamt.setText(String.valueOf(Integer.valueOf(totalamount)-Integer.valueOf(amountpaid)));
+        tv_pendingamt.setText(String.valueOf(pendingamt));
+
+        et_newpayment.addTextChangedListener(new TextWatcher() {
+
+            public void afterTextChanged(Editable s) {
+
+            }
+
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+                String enteredtext=s.toString();
+                if(enteredtext.equalsIgnoreCase(""))
+                    enteredtext="0";
+                if(pendingamt<Integer.parseInt(enteredtext))
+                {
+                    et_newpayment.getText().clear();
+                    Toast.makeText(getApplicationContext(),"Enter Amount Less Than Pending Amount",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
 
     }
