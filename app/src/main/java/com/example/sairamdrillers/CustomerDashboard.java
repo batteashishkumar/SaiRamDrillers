@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -35,6 +36,8 @@ public class CustomerDashboard extends AppCompatActivity {
     Vector<PaymentDo> vecPaymentsofCustomers=new Vector<PaymentDo>();
     int amountpaid=0,pendingamt=0;
     PaymentAdapter paymentAdapter;
+    String Totalamtnew="";
+    EditText et_totalamt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +114,53 @@ public class CustomerDashboard extends AppCompatActivity {
 });
 
 
+        tv_edit_totalamt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Dialoginstance dialoginstance=new Dialoginstance(CustomerDashboard.this,80,25,"Total Amount","Current Total Amount:"+totalamount+".00");//dont use getapplicationcontext()
+                final Dialog dialog=dialoginstance.getdialoginstance();
+                Button btn_ok=dialoginstance.getBtn_ok();
+                et_totalamt=dialoginstance.getEt_newpayment();
+                et_totalamt.setVisibility(View.VISIBLE);
+                btn_ok.setText("Save");
+                btn_ok.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Totalamtnew=et_totalamt.getText().toString();
+                       if(Totalamtnew.equalsIgnoreCase(""))
+                       {
+                          Toast.makeText(CustomerDashboard.this,"Enter Amount greater than zero",Toast.LENGTH_SHORT).show();
+                       }
+                       else {
+                           if (0==Integer.parseInt(Totalamtnew)){
+                               Toast.makeText(CustomerDashboard.this,"Enter Amount greater than zero",Toast.LENGTH_SHORT).show();
+                           }
+                           else if(Integer.parseInt(Totalamtnew)<amountpaid){
+                               Toast.makeText(CustomerDashboard.this,"Customer Already paid :"+amountpaid+".00",Toast.LENGTH_SHORT).show();
+                           }
+                           else {
+                            Boolean status=new CustomerDA(getApplicationContext()).setnewTotalamt(Totalamtnew,customerDo.id);
+                            if(status==true)
+                            {
+                                Toast.makeText(CustomerDashboard.this,"Success Updated",Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                                loaddata();
+                            }
+                            else {
+                                Toast.makeText(CustomerDashboard.this,"Failed to update",Toast.LENGTH_SHORT).show();
+
+                            }
+                           }
+
+                       }
+
+
+
+                    }
+                });
+                dialog.show();
+            }
+        });
     }
 
     private void loaddata() {

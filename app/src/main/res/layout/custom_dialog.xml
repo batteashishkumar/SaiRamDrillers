@@ -31,12 +31,23 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:layout_centerInParent="true"
             android:padding="10dp"
+            android:layout_below="@+id/tv_title"
             android:scrollbars="vertical"
             android:maxLines="10"
             android:textSize="18dp"
             android:text="Please enter Name(Unique)"></TextView>
+        <EditText
+            android:id="@+id/et_newpayment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/editext_sty"
+            android:layout_below="@+id/tv_body"
+            android:hint="0.00"
+            android:inputType="number"
+            android:padding="5dp"
+            android:textSize="25dp"
+            android:visibility="visible"/>
         <Button
             android:id="@+id/btn_ok"
             android:layout_width="wrap_content"

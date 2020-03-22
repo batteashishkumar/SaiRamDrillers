@@ -88,4 +88,14 @@ class CustomerDA {
         }
         return totalamount;
     }
+    public Boolean setnewTotalamt(String Totalamtnew,String customerid) {
+        String totalamount="";
+        try {
+            db.execSQL("UPDATE customer_table SET totalamount='"+Totalamtnew+"' WHERE customer_id='"+customerid+"'");
+        }
+        catch (Exception e){
+            return false;
+        }
+        return true;
+    }
 }
