@@ -28,7 +28,7 @@ class CustomerDA {
 
         Vector<CustomerDo> vecCustomers=new Vector<>();
         try {
-                Cursor cursor=db.rawQuery("select customer_id,customer_name,customer_place,customer_number,totalamount,dateandtime from customer_table order by dateandtime desc",null);
+                Cursor cursor=db.rawQuery("select customer_id,customer_name,customer_place,customer_number,totalamount,dateandtime from customer_table where  ifnull(IsDeleted,0) like 0 order by dateandtime desc",null);
                 if (cursor.moveToFirst()){
                     do{
                        CustomerDo customerDo=new CustomerDo();
@@ -55,7 +55,7 @@ class CustomerDA {
     public String getCustomertotalamount(String id) {
         String totalamount="";
         try {
-            Cursor cursor=db.rawQuery("select totalamount from customer_table where customer_id like '"+id+"'",null);
+            Cursor cursor=db.rawQuery("select totalamount from customer_table where customer_id like '"+id+"' and ifnull(IsDeleted,0) like 0",null);
             if (cursor.moveToFirst()){
                 do{
                     totalamount=cursor.getString(0);
@@ -73,7 +73,7 @@ class CustomerDA {
     public String getallCustomertotalamount() {
         String totalamount="";
         try {
-            Cursor cursor=db.rawQuery("select sum(totalamount) from customer_table ",null);
+            Cursor cursor=db.rawQuery("select sum(totalamount) from customer_table where ifnull(IsDeleted,0) like 0",null);
             if (cursor.moveToFirst()){
                 do{
                     totalamount=cursor.getString(0);
@@ -97,5 +97,18 @@ class CustomerDA {
             return false;
         }
         return true;
+    }
+
+    public Boolean deletecustomer(CustomerDo customerDo) {
+        try{
+          db.execSQL("UPDATE customer_table SET IsDeleted='1' WHERE customer_id='"+customerDo.id+"'");
+        }
+        catch (Exception e){
+            return false;
+        }
+
+
+
+        return  true;
     }
 }

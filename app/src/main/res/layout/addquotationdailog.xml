@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:paddingTop="10dp"
+    android:background="@drawable/curvy_ll"
+    android:paddingBottom="10dp"
+    android:gravity="center">
+
+    <EditText
+        android:id="@+id/ev_rangelower"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        android:padding="5dp"
+        android:hint="Lower Range"
+        android:inputType="number"
+        android:background="@drawable/editext_sty"
+        android:textColor="@color/black"></EditText>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="---"
+        android:textSize="15dp"></TextView>
+    <EditText
+        android:id="@+id/ev_rangehigher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15dp"
+        android:textStyle="bold"
+
+        android:padding="5dp"
+        android:hint="Higher Range"
+        android:inputType="number"
+        android:background="@drawable/editext_sty"
+        android:textColor="@color/black"></EditText>
+    <LinearLayout
+        android:id="@+id/addquoterange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_gravity="center"
+        android:background="@drawable/textview_sty_blue"
+        android:gravity="left"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Add"
+            android:textSize="15dp"
+            android:layout_margin="10dp"
+            android:textColor="@color/white"
+            android:gravity="center"
+            ></TextView>
+    </LinearLayout>
+</LinearLayout>

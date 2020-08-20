@@ -4,11 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ContentResolver;
 import android.content.DialogInterface;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.CallLog;
+import android.provider.ContactsContract;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,25 +23,37 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
+import java.util.Vector;
 
-public class CreateCustomer extends AppCompatActivity {
+public class CreateCustomer extends Base {
     CustomerDo customerDo;
     EditText et_CustName,et_place,et_number,et_amount;
     boolean status=false;
+    Vector<ContactDo> veccontactDo=new Vector<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_customer);
+        activity=2;
         et_CustName=findViewById(R.id.et_CustName);
         et_place=findViewById(R.id.et_place);
         et_number=findViewById(R.id.et_number);
         et_amount=findViewById(R.id.et_amount);
         Button btn_save= findViewById(R.id.btn_save);
         customerDo=new CustomerDo();
+
+        et_number.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,5 +116,6 @@ public class CreateCustomer extends AppCompatActivity {
             }
         });
     }
+
 
 }

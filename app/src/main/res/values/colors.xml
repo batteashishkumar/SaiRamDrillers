@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FFD740</color>
-    <color name="colorPrimaryDark">#FFD740</color>
-    <color name="colorAccent">#FFD740</color>
+    <color name="colorPrimary">#FFD124</color>
+    <color name="colorPrimaryDark">#FFD124</color>
+    <color name="colorAccent">#FFD124</color>
 
-    <color name="yellow">#FFD740</color>
+    <color name="yellow">#FFD124</color>
     <color name="red">#FF5252</color>
     <color name="white">#FFFFFF</color>
+    <color name="grey_light">#F1F1F1</color>
     <color name="black">#333333</color>
+    <color name="black_lite">#515151</color>
     <color name="green">#56EEA9</color>
-    <color name="blue">#536DFE</color>
+    <color name="blue">#0028FF</color>
 
 
     <color name="ash">#B4B4B4</color>
-    <color name="appcolor">#FFD740</color>
+    <color name="appcolor">#FFD124</color>
 </resources>

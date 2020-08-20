@@ -6,7 +6,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical">
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="match_parent"
@@ -25,42 +26,67 @@
             android:background="@color/black">
 
         </View>
-        <TextView
-            android:id="@+id/tv_body"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:orientation="vertical"
             android:gravity="center"
-            android:padding="10dp"
-            android:layout_below="@+id/tv_title"
-            android:scrollbars="vertical"
-            android:maxLines="10"
-            android:textSize="18dp"
-            android:text="Please enter Name(Unique)"></TextView>
-        <EditText
-            android:id="@+id/et_newpayment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/editext_sty"
-            android:layout_below="@+id/tv_body"
-            android:hint="0.00"
-            android:inputType="number"
-            android:padding="5dp"
-            android:textSize="25dp"
-            android:visibility="visible"/>
-        <Button
-            android:id="@+id/btn_ok"
+            android:layout_below="@+id/tv_title">
+            <TextView
+                android:id="@+id/tv_body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="10dp"
+                android:scrollbars="vertical"
+                android:maxLines="10"
+                android:textSize="18dp"
+                android:text="Please enter Name(Unique)"></TextView>
+            <EditText
+                android:id="@+id/et_newpayment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/editext_sty"
+                android:hint="0.00"
+                android:inputType="number"
+                android:padding="5dp"
+                android:textSize="25dp"
+                android:visibility="visible"/>
+        </LinearLayout>
+
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="OK"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:padding="10dp"
-            android:layout_margin="10dp"
-            android:layout_gravity="center"
-            android:textColor="@color/white"
-            android:background="@drawable/btn_sty"
-            ></Button>
+            android:layout_centerHorizontal="true">
+            <Button
+                android:id="@+id/btn_yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Yes"
+                android:padding="10dp"
+                android:layout_margin="10dp"
+                android:layout_gravity="center"
+                android:textColor="@color/white"
+                android:background="@drawable/btn_sty"
+                android:visibility="gone"
+                ></Button>
+            <Button
+                android:id="@+id/btn_ok"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="OK"
+                android:padding="10dp"
+                android:layout_margin="10dp"
+                android:layout_gravity="center"
+                android:textColor="@color/white"
+                android:background="@drawable/btn_sty"
+                ></Button>
+        </LinearLayout>
+
+
     </RelativeLayout>
 
 </LinearLayout>

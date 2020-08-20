@@ -68,7 +68,7 @@ public class PaymentDA {
     public String getsumofallpaymentsofcustomers() {
         String sum="";
         try {
-            Cursor cursor=db.rawQuery("select sum(payment_amount) from payment_table ",null);
+            Cursor cursor=db.rawQuery("SELECT sum(pt.payment_amount) FROM payment_table pt inner join customer_table ct on ct.customer_id=pt.customer_id WHERE ifnull(ct.IsDeleted,0) like 0",null);
             if (cursor.moveToFirst()){
                 do{
                     sum=cursor.getString(0);

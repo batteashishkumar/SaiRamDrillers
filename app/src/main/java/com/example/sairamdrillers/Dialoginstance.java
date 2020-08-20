@@ -16,12 +16,13 @@ public class Dialoginstance extends Activity {
     Context context;
     int width,height;
     String title,body;
-    Button btn_ok;
+    Button btn_ok,btn_yes;
     public Dialoginstance(Context context,float width_percentage,float height_percentage,String title,String body){
         this.context=context;
         dialog = new Dialog(context);
         dialog.setContentView(R.layout.custom_dialog);
         btn_ok=dialog.findViewById(R.id.btn_ok);
+        btn_yes=dialog.findViewById(R.id.btn_yes);
         tv_body=dialog.findViewById(R.id.tv_body);
         tv_title=dialog.findViewById(R.id.tv_title);
         et_newpayment=dialog.findViewById(R.id.et_newpayment);
@@ -44,6 +45,10 @@ public class Dialoginstance extends Activity {
     Button getBtn_ok()
     {
         return btn_ok;
+    }
+    Button getBtn_yes()
+    {
+        return btn_yes;
     }
 
     public TextView getTv_body() {

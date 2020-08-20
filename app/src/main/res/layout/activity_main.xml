@@ -40,7 +40,9 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_weight="1.5"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:weightSum="2">
             <LinearLayout
                 android:layout_width="match_parent"
@@ -52,37 +54,101 @@
                 android:layout_margin="5dp"
                 android:gravity="center"
                 android:background="@color/appcolor">
-
-                <TextView
-                    android:background="@drawable/textview_sty_green"
-                    android:id="@+id/tv_totalamt"
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent"
-                    android:text="10000rs"
-                    android:layout_margin="5dp"
-                    android:elevation="5dp"
-                    android:drawableLeft="@drawable/ic_monetization_on_black_24dp"
-                    android:textSize="25dp"
-                    android:gravity="center"
-                    android:padding="5dp"></TextView>
-
-
-                <TextView
-                    android:background="@drawable/textview_sty_red"
-                    android:id="@+id/tv_pendingamt"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_margin="5dp"
-                    android:drawableLeft="@drawable/ic_monetization_on_black_24dp"
-                    android:layout_height="match_parent"
-                    android:text="10000rs"
-                    android:elevation="5dp"
-                    android:gravity="center"
-                    android:textSize="25dp"
+                    android:orientation="vertical"
                     android:padding="5dp"
-                    android:layout_below="@+id/tv_totalamt">
-                </TextView>
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    >
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Total Amount"
+                        android:gravity="center"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@drawable/editext_sty_trasp"
+                        android:padding="2dp"
+                        android:textSize="15dp"
+                        android:textColor="@color/black"
+                        >
+
+                    </TextView>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/textview_sty_green"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        >
+                        <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_margin="10dp"
+                            android:src="@drawable/rupee"></ImageView>
+                        <TextView
+                            android:id="@+id/tv_totalamt"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="10000rs"
+                            android:textSize="20dp"
+                            android:gravity="center"
+                            android:padding="5dp"></TextView>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="5dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    >
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Pending Amount"
+                        android:gravity="center"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@drawable/editext_sty_trasp"
+                        android:padding="2dp"
+                        android:textSize="15dp"
+                        android:textColor="@color/black"
+                        >
+
+                    </TextView>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/textview_sty_red"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_margin="10dp"
+                            android:src="@drawable/rupee"></ImageView>
+                        <TextView
+                            android:id="@+id/tv_pendingamt"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="10000rs"
+                            android:gravity="center"
+                            android:textSize="20dp"
+                            android:padding="5dp"
+                            android:layout_below="@+id/tv_totalamt">
+                        </TextView>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
             </LinearLayout>
 
 
@@ -112,7 +178,7 @@
                 android:id="@+id/tv_create"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Create a customer"
+                android:text="Add Customer"
                 android:textSize="15dp"
                 android:padding="5dp"
                 android:drawableLeft="@drawable/ic_add_circle_black_24dp"
@@ -128,8 +194,8 @@
             android:id="@+id/rv"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="8.2"
-            android:background="@color/white">
+            android:layout_weight="7.7"
+            android:background="@color/grey_light">
 
         </androidx.recyclerview.widget.RecyclerView>
 
@@ -151,7 +217,8 @@
             android:textSize="20dp"
             android:textColor="@color/white"
             android:gravity="center"
-            android:padding="18dp"></TextView>
+            android:padding="18dp"
+            android:visibility="gone"></TextView>
 
 
 </RelativeLayout>

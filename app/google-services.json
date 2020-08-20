@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "676243633485",
+    "firebase_url": "https://sairamdrillers-67541.firebaseio.com",
+    "project_id": "sairamdrillers-67541",
+    "storage_bucket": "sairamdrillers-67541.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:676243633485:android:e4174c274b94d953647304",
+        "android_client_info": {
+          "package_name": "com.example.sairamdrillers"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "676243633485-3p4s6vt9nueus45f86ahd0opv62klbr6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sairamdrillers",
+            "certificate_hash": "74b541938dc906c6cfc5b3c6e06e958941ff5f28"
+          }
+        },
+        {
+          "client_id": "676243633485-7677b3id50lf5ndj28uvqg2re3cavvfh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhBP68lSz-4Hql4aTsHd9qqCDm4DuilFw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "676243633485-7677b3id50lf5ndj28uvqg2re3cavvfh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

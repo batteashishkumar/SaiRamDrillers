@@ -132,12 +132,32 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:weightSum="100">
                <androidx.recyclerview.widget.RecyclerView
                    android:id="@+id/rv_Quotation"
                    android:layout_width="match_parent"
-                   android:layout_height="wrap_content"/>
+                   android:layout_height="0dp"
+                   android:layout_weight="98"/>
+                <LinearLayout
+                    android:id="@+id/addquote"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/textview_sty_blue"
+                    android:gravity="left"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="+Add"
+                        android:textSize="15dp"
+                        android:layout_margin="10dp"
+                        android:textColor="@color/white"
+                        android:gravity="center"
+                        ></TextView>
+                </LinearLayout>
             </LinearLayout>
 
 
@@ -178,6 +198,7 @@
                             android:textColor="@color/black"
                             android:textStyle="bold"/>
                         <EditText
+                            android:id="@+id/et_seveninchpipes"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="15dp"
@@ -185,7 +206,6 @@
                             android:padding="5dp"
                             android:layout_marginLeft="5dp"
                             android:hint="sudhakar pipes"
-                            android:inputType="number"
                             android:background="@drawable/editext_sty"
                             android:textColor="@color/black"></EditText>
                         <TextView
@@ -214,6 +234,7 @@
                             android:textStyle="bold"/>
 
                         <EditText
+                            android:id="@+id/et_seveninchpipesamount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="15dp"
@@ -245,6 +266,7 @@
                             android:textColor="@color/black"
                             android:textStyle="bold"/>
                         <EditText
+                            android:id="@+id/et_teninchpipes"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="15dp"
@@ -252,7 +274,6 @@
                             android:padding="5dp"
                             android:layout_marginLeft="5dp"
                             android:hint="sudhakar pipes"
-                            android:inputType="number"
                             android:background="@drawable/editext_sty"
                             android:textColor="@color/black"></EditText>
                         <TextView
@@ -281,6 +302,7 @@
                             android:textStyle="bold"/>
 
                         <EditText
+                            android:id="@+id/et_teninchpipesamount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="15dp"
@@ -329,6 +351,7 @@
                             android:textStyle="bold"/>
 
                         <EditText
+                            android:id="@+id/et_flushingamount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="15dp"
@@ -377,6 +400,7 @@
                             android:textStyle="bold"/>
 
                         <EditText
+                            android:id="@+id/et_labourandtransportamount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="15dp"

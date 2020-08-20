@@ -1,11 +1,15 @@
 package com.example.sairamdrillers;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -25,10 +29,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Vector;
 
-public class CustomerDashboard extends AppCompatActivity {
+public class CustomerDashboard extends Base {
     RecyclerView recyclerView;
     CustomerDo customerDo;
-    TextView tv_customername,tv_place,tv_phonenumber,tv_datetime,tv_edit_totalamt,tv_totalamt,tv_pendingamt,tv_amountpaid;
+    TextView tv_customername,tv_place,tv_phonenumber,tv_datetime,tv_edit_totalamt,tv_totalamt,tv_pendingamt,tv_amountpaid,tv_sendquote;
     ImageView iv_editcustomer;
     EditText et_newpayment;
     Button btn_newpayment,btn_settlepending;
@@ -44,7 +48,7 @@ public class CustomerDashboard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_dashboard);
         customerDo=(CustomerDo)getIntent().getSerializableExtra("customerDo");
-
+        tv_sendquote=findViewById(R.id.tv_sendquote);
         tv_customername=findViewById(R.id.tv_customername);
         tv_place=findViewById(R.id.tv_place);
         tv_phonenumber=findViewById(R.id.tv_phonenumber);
@@ -67,7 +71,7 @@ public class CustomerDashboard extends AppCompatActivity {
 
         tv_customername.setText(""+customerDo.name);
         tv_place.setText(""+customerDo.place);
-        tv_phonenumber.setText(""+customerDo.number);
+        tv_phonenumber.setText("+91-"+customerDo.number);
         tv_datetime.setText(""+customerDo.dateandtime);
 
 
@@ -79,14 +83,6 @@ public class CustomerDashboard extends AppCompatActivity {
         btn_newpayment.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
-
-
-
-
-
-
-
-
         PaymentDo paymentDo=new PaymentDo();
         if(et_newpayment.getText().toString().equalsIgnoreCase("")||et_newpayment.getText().toString().equalsIgnoreCase("0")){
             Toast.makeText(getApplicationContext(),"Enter Amount Greater Than Zero",Toast.LENGTH_SHORT).show();
@@ -112,6 +108,18 @@ public class CustomerDashboard extends AppCompatActivity {
         }
     }
 });
+
+
+        tv_phonenumber.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ActivityCompat.checkSelfPermission(CustomerDashboard.this, Manifest.permission.CALL_PHONE) ==
+                        PackageManager.PERMISSION_GRANTED)
+                {
+                    startActivity(new Intent(Intent.ACTION_CALL, Uri.fromParts("tel", customerDo.number, null)));
+                }
+            }
+        });
 
 
         tv_edit_totalamt.setOnClickListener(new View.OnClickListener() {
@@ -161,6 +169,14 @@ public class CustomerDashboard extends AppCompatActivity {
                 dialog.show();
             }
         });
+        tv_sendquote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(),Quotation_Entry.class);
+                intent.putExtra("customerDo",customerDo);
+                startActivity(intent);
+            }
+        });
     }
 
     private void loaddata() {
@@ -168,15 +184,15 @@ public class CustomerDashboard extends AppCompatActivity {
         totalamount=new CustomerDA(this).getCustomertotalamount(customerDo.id);
         if(totalamount.equalsIgnoreCase(""))
             totalamount="0";
-        tv_totalamt.setText(totalamount);
+        tv_totalamt.setText(totalamount+".0");
         vecPaymentsofCustomers=new PaymentDA(this).getallpaymentsofcustomer(customerDo.id);
         amountpaid=0;
         for(int i=0;i<vecPaymentsofCustomers.size();i++){
             amountpaid=amountpaid+Integer.valueOf(vecPaymentsofCustomers.get(i).paymentAmount);
         }
         pendingamt=Integer.valueOf(totalamount)-Integer.valueOf(amountpaid);
-        tv_amountpaid.setText(String.valueOf(amountpaid));
-        tv_pendingamt.setText(String.valueOf(pendingamt));
+        tv_amountpaid.setText(String.valueOf(amountpaid)+".0");
+        tv_pendingamt.setText(String.valueOf(pendingamt)+".0");
 
         et_newpayment.addTextChangedListener(new TextWatcher() {
 
@@ -227,7 +243,7 @@ public class CustomerDashboard extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(MyViewHolder holder, int position) {
-            holder.tv_amt_cell.setText(vecPaymentsofCustomers.get(position).paymentAmount);
+            holder.tv_amt_cell.setText(vecPaymentsofCustomers.get(position).paymentAmount+".0");
             holder.tv_type_cell.setText(vecPaymentsofCustomers.get(position).paymentType);
             holder.tv_datetime.setText(vecPaymentsofCustomers.get(position).payment_datetime);
 

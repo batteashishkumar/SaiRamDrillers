@@ -28,8 +28,14 @@
                     android:layout_height="wrap_content"
                     android:hint="Enter Customer Name:"
                     android:maxLength="32"
+                    android:drawableLeft="@drawable/ic_account_circle_black_24dp"
+                    android:inputType="textCapSentences"
+                    android:drawablePadding="10dp"
                     android:background="@drawable/editext_sty"
-                    android:padding="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingBottom="10dp"
                     android:layout_margin="5dp"
                     >
 
@@ -47,6 +53,9 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:hint="Place"
+                        android:maxLength="20"
+                        android:drawableRight="@drawable/ic_location_on_black_24dp"
+                        android:inputType="textCapSentences"
                         android:background="@drawable/editext_sty"
                         android:padding="10dp"
                         android:layout_marginRight="5dp"
@@ -59,22 +68,39 @@
                         android:layout_weight="1"
                         android:inputType="number"
                         android:background="@drawable/editext_sty"
+                        android:drawableRight="@drawable/ic_contacts_black_24dp"
                         android:padding="10dp"
+                        android:maxLength="10"
                         android:layout_marginLeft="5dp"
                         android:hint="Phone">
                     </EditText>
 
                 </LinearLayout>
-                <EditText
-                    android:id="@+id/et_amount"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Amount"
-                    android:inputType="number"
                     android:background="@drawable/editext_sty"
                     android:padding="10dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:layout_margin="5dp">
-                </EditText>
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginRight="5dp"
+                        android:src="@drawable/rupee">
+                    </ImageView>
+                    <EditText
+                        android:id="@+id/et_amount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Amount"
+                        android:background="@null"
+                        android:inputType="number"
+                        android:maxLength="7">
+                    </EditText>
+                </LinearLayout>
+
 
                 <Button
                     android:id="@+id/btn_save"

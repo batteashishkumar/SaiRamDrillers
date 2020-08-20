@@ -4,17 +4,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -32,22 +35,38 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Vector;
 
-public class Quotation_Entry extends AppCompatActivity {
+public class Quotation_Entry extends Base {
 RecyclerView rv_Quotation;
-LinearLayout ll_quotationswipe;
+LinearLayout ll_quotationswipe,addquote;
 Vector<QuotationDo> vecQuotationDo=new Vector<>();
+    QuotationAdapter quotationAdapter=new QuotationAdapter();
+    EditText ev_rangelower,ev_rangehigher,et_seveninchpipes,et_teninchpipes,et_seveninchpipesamount,et_teninchpipesamount,et_flushingamount,et_labourandtransportamount;
+    CustomerDo customerDo=new CustomerDo();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quotation__entry);
+        customerDo=(CustomerDo)getIntent().getSerializableExtra("customerDo");
+        if (customerDo==null)
+            customerDo= new CustomerDo();
         rv_Quotation=findViewById(R.id.rv_Quotation);
         ll_quotationswipe=findViewById(R.id.ll_quotationswipe);
+        et_seveninchpipes=findViewById(R.id.et_seveninchpipes);
+        et_teninchpipes=findViewById(R.id.et_teninchpipes);
+        et_seveninchpipesamount=findViewById(R.id.et_seveninchpipesamount);
+        et_teninchpipesamount=findViewById(R.id.et_teninchpipesamount);
+        et_flushingamount=findViewById(R.id.et_flushingamount);
+        et_labourandtransportamount=findViewById(R.id.et_labourandtransportamount);
+        addquote=findViewById(R.id.addquote);
         rv_Quotation.setHasFixedSize(true);
         rv_Quotation.setLayoutManager(new LinearLayoutManager(this));
         buildquotationdo();
-        rv_Quotation.setAdapter(new QuotationAdapter());
+        rv_Quotation.setAdapter(quotationAdapter);
 
         ll_quotationswipe.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,24 +74,59 @@ Vector<QuotationDo> vecQuotationDo=new Vector<>();
                 createPdf("");
             }
         });
+        addquote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialogaddQuoteToDo("");
+            }
+        });
 
 
     }
 
-    private void buildquotationdo() {
-        QuotationDo quotationDo=new QuotationDo();
-        quotationDo.idsn="1";
-        quotationDo.range="1-100";
-        vecQuotationDo.add(quotationDo);
-        QuotationDo quotationDo2=new QuotationDo();
-        quotationDo2.idsn="2";
-        quotationDo2.range="100-200";
-        vecQuotationDo.add(quotationDo2);
-        QuotationDo quotationDo3=new QuotationDo();
-        quotationDo3.idsn="3";
-        quotationDo3.range="200-300";
-        vecQuotationDo.add(quotationDo3);
+    private void showDialogaddQuoteToDo(String s) {
+        try
+        {
+            Dialoginstance dialoginstance=new Dialoginstance(Quotation_Entry.this,90,30,"ALERT","");
+            final Dialog dialog=dialoginstance.getdialoginstance();
+            dialog.setContentView(R.layout.addquotationdailog);
+            LinearLayout btnok=dialog.findViewById(R.id.addquoterange);
+            ev_rangelower=dialog.findViewById(R.id.ev_rangelower);
+            ev_rangehigher=dialog.findViewById(R.id.ev_rangehigher);
+            btnok.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    addQuoteToDo();
+                    dialog.dismiss();
+                }
+            });
+            dialog.show();
 
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private void addQuoteToDo() {
+        QuotationDo quotationDo=new QuotationDo();
+        quotationDo.idsn=vecQuotationDo.size()+1+".";
+        quotationDo.range=ev_rangelower.getText().toString()+"-"+ev_rangehigher.getText().toString();
+        vecQuotationDo.add(quotationDo);
+        quotationAdapter.notifyDataSetChanged();
+    }
+
+    private void buildquotationdo() {
+        for (int i=1;i<=10;i++)
+        {
+            QuotationDo quotationDo=new QuotationDo();
+            quotationDo.idsn=i+".";
+            int upperindex=100*i;
+            int lowerindex=upperindex-100;
+            quotationDo.range=""+lowerindex+"-"+upperindex;
+            quotationDo.feets="100";
+            vecQuotationDo.add(quotationDo);
+        }
     }
 
     public class QuotationAdapter extends RecyclerView.Adapter<QuotationAdapter.MyViewHolder> {
@@ -160,6 +214,7 @@ Vector<QuotationDo> vecQuotationDo=new Vector<>();
                 if(vecQuotationDo.get(position)!=null){
                     holder.tv_sno.setText(vecQuotationDo.get(position).idsn);
                     holder.tv_range.setText(vecQuotationDo.get(position).range);
+                    holder.ev_feets.setText(vecQuotationDo.get(position).feets);
                 }
             }catch (Exception e){
 
@@ -173,7 +228,7 @@ Vector<QuotationDo> vecQuotationDo=new Vector<>();
         }
         @Override
         public int getItemCount() {
-            return 30;
+            return vecQuotationDo.size();
         }
 
         @Override
@@ -198,11 +253,18 @@ Vector<QuotationDo> vecQuotationDo=new Vector<>();
         PdfWriter pdfWriter = null;
 
         try {
+            File folder = new File(Environment.getExternalStorageDirectory() + "/Pdffolder");
+            boolean success = true;
+            if (!folder.exists()) {
+                success = folder.mkdir();
+            }
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
+            String currentDateandTime = sdf.format(new Date());
 
             String exampleString=getHtmlString();
             InputStream stream = new ByteArrayInputStream(exampleString.getBytes(StandardCharsets.UTF_8));
             InputStreamReader fis =  new InputStreamReader(stream);
-            String fpath = "/sdcard/" + "ash" + ".pdf";
+            String fpath = "/sdcard/Pdffolder/" + "ash"+currentDateandTime+ ".pdf";
             File file = new File(fpath);
             Document document = new Document();
 
@@ -219,6 +281,7 @@ Vector<QuotationDo> vecQuotationDo=new Vector<>();
             document.close();
             pdfWriter.close();
             Intent i=new Intent(this,Pdfviewer.class);
+            i.putExtra("pdfname","ash"+currentDateandTime+ ".pdf");
             startActivity(i);
 
 
@@ -300,8 +363,9 @@ Vector<QuotationDo> vecQuotationDo=new Vector<>();
                 "\t\n" +
                 "      </div>\n" +
                 "\t  \n" +
-                "<p style=\"text-align:left;margin-left: 15px; margin-bottom: 5px; margin-right: 15px;\">Date: 1st March 2020</p>\n" +
-                "<p style=\"text-align:left;margin-left: 15px; margin-bottom: 5px; margin-right: 15px;\">Name:Batte Ashish Kumar</p>\n" +
+                "<p style=\"text-align:left;margin-left: 15px; margin-bottom: 5px; margin-right: 15px;\">Date: "+new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date())+"</p>\n" +
+                "<p style=\"text-align:left;margin-left: 15px; margin-bottom: 5px; margin-right: 15px;\">Place: "+customerDo.place+"</p>\n" +
+                "<p style=\"text-align:left;margin-left: 15px; margin-bottom: 5px; margin-right: 15px;\">Name:"+customerDo.name+"</p>\n" +
                 "      <div>\n" +
                 "        <table>\n" +
                 "          <tr>\n" +
@@ -311,113 +375,15 @@ Vector<QuotationDo> vecQuotationDo=new Vector<>();
                 "\t\t\t<th style=\"border-right: 1px solid #dddddd;\">RATES</th>\n" +
                 "            <th style=\"border-right: 1px solid #dddddd;\">AMOUNT</th>\n" +
                 "          </tr>\n" +getQuotation()+
-                "\t\t  <tr>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;border-left: 1px solid #dddddd;\">1</td>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;\">001 - 100 ft</td>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;\">100</td>\n" +
-                "\t\t\t <td style=\"border-right: 1px solid #dddddd;\">30.00</td>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;\">3000.00</td>\n" +
-                "          </tr>\n" +
-                "\t\t  <tr>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;border-left: 1px solid #dddddd;\">1</td>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;\">001 - 100 ft</td>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;\">100</td>\n" +
-                "\t\t\t <td style=\"border-right: 1px solid #dddddd;\">30.00</td>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;\">3000.00</td>\n" +
-                "          </tr>\n" +
-                "\t\t  <tr>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;border-left: 1px solid #dddddd;\">1</td>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;\">001 - 100 ft</td>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;\">100</td>\n" +
-                "\t\t\t <td style=\"border-right: 1px solid #dddddd;\">30.00</td>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;\">3000.00</td>\n" +
-                "          </tr>\n" +
-                "\t\t  <tr>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;border-left: 1px solid #dddddd;\">1</td>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;\">001 - 100 ft</td>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;\">100</td>\n" +
-                "\t\t\t <td style=\"border-right: 1px solid #dddddd;\">30.00</td>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;\">3000.00</td>\n" +
-                "          </tr>\n" +
-                "          <tr>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;border-left: 1px solid #dddddd;\">1</td>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;\">001 - 100 ft</td>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;\">100</td>\n" +
-                "\t\t\t <td style=\"border-right: 1px solid #dddddd;\">30.00</td>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;\">3000.00</td>\n" +
-                "          </tr>\n" +
-                "\t\t  <tr>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;border-left: 1px solid #dddddd;\">1</td>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;\">001 - 100 ft</td>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;\">100</td>\n" +
-                "\t\t\t <td style=\"border-right: 1px solid #dddddd;\">30.00</td>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;\">3000.00</td>\n" +
-                "          </tr>\n" +
-                "\t\t  <tr>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;border-left: 1px solid #dddddd;\">1</td>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;\">001 - 100 ft</td>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;\">100</td>\n" +
-                "\t\t\t <td style=\"border-right: 1px solid #dddddd;\">30.00</td>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;\">3000.00</td>\n" +
-                "          </tr>\n" +
-                "\t\t  <tr>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;border-left: 1px solid #dddddd;\">1</td>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;\">001 - 100 ft</td>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;\">100</td>\n" +
-                "\t\t\t <td style=\"border-right: 1px solid #dddddd;\">30.00</td>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;\">3000.00</td>\n" +
-                "          </tr>\n" +
-                "\t\t  <tr>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;border-left: 1px solid #dddddd;\">1</td>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;\">001 - 100 ft</td>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;\">100</td>\n" +
-                "\t\t\t <td style=\"border-right: 1px solid #dddddd;\">30.00</td>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;\">3000.00</td>\n" +
-                "          </tr>\n" +
-                "\t\t  <tr>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;border-left: 1px solid #dddddd;\">1</td>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;\">001 - 100 ft</td>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;\">100</td>\n" +
-                "\t\t\t <td style=\"border-right: 1px solid #dddddd;\">30.00</td>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;\">3000.00</td>\n" +
-                "          </tr>\n" +
-                "\t\t  <tr>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;border-left: 1px solid #dddddd;\">1</td>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;\">001 - 100 ft</td>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;\">100</td>\n" +
-                "\t\t\t <td style=\"border-right: 1px solid #dddddd;\">30.00</td>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;\">3000.00</td>\n" +
-                "          </tr>\n" +
-                "\t\t  <tr>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;border-left: 1px solid #dddddd;\">1</td>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;\">001 - 100 ft</td>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;\">100</td>\n" +
-                "\t\t\t <td style=\"border-right: 1px solid #dddddd;\">30.00</td>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;\">3000.00</td>\n" +
-                "          </tr>\n" +
-                "\t\t  <tr>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;border-left: 1px solid #dddddd;\">1</td>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;\">001 - 100 ft</td>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;\">100</td>\n" +
-                "\t\t\t <td style=\"border-right: 1px solid #dddddd;\">30.00</td>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;\">3000.00</td>\n" +
-                "          </tr>\n" +
-                "\t\t  <tr>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;\">1</td>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;\">001 - 100 ft</td>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;\">100</td>\n" +
-                "\t\t\t <td style=\"border-right: 1px solid #dddddd;\">30.00</td>\n" +
-                "            <td style=\"border-right: 1px solid #dddddd;\">3000.00</td>\n" +
-                "          </tr>\n" +
                 "        </table>\n" +
                 "      </div>\n" +
                 "\t  <div style=\"margin-left: 15px;margin-top: 15px;\">\n" +
-                "\t  <p style=\"text-align:left;font-weight: bold;  margin-right: 15px;\">7\" Sudhakar pipes Per Feet<span style=\"float:right;\">Amount : 300.00</span></p>\n" +
-                "\t  <p style=\"text-align:left;font-weight: bold;  margin-right: 15px;\">10\" Sudhakar pipes Per Feet<span style=\"float:right;\">Amount : 500.00</span></p>\n" +
-                "\t  <p style=\"text-align:left;font-weight: bold;  margin-right: 15px;\">Flushing 6 1/2\" Borewells Per Feet<span style=\"float:right;\">Amount : 0.00</span></p>\n" +
-                "\t  <p style=\"text-align:left;font-weight: bold;  margin-right: 15px;\">Transport and Labour Charges<span style=\"float:right;\">Amount : 0.00</span></p>\n" +
+                "\t  <p style=\"text-align:left;font-weight: bold;  margin-right: 15px;\">7\" "+et_seveninchpipes.getText().toString()+" Per Feet<span style=\"float:right;\">Amount : "+et_seveninchpipesamount.getText().toString()+".00</span></p>\n" +
+                "\t  <p style=\"text-align:left;font-weight: bold;  margin-right: 15px;\">10\" "+et_teninchpipes.getText().toString()+" Per Feet<span style=\"float:right;\">Amount : "+et_teninchpipesamount.getText().toString()+".00</span></p>\n" +
+                "\t  <p style=\"text-align:left;font-weight: bold;  margin-right: 15px;\">Flushing 6 1/2\" Borewells Per Feet<span style=\"float:right;\">Amount : "+et_flushingamount.getText().toString()+".00</span></p>\n" +
+                "\t  <p style=\"text-align:left;font-weight: bold;  margin-right: 15px;\">Transport and Labour Charges<span style=\"float:right;\">Amount : "+et_labourandtransportamount.getText().toString()+".00</span></p>\n" +
                 "\t  \n" +
-                "\t  <p style=\"text-align:left;font-weight: bold; margin:0px;\"><span style=\"float:right;\">Total Amount : 800.00</span></p>\n" +
+//                "\t  <p style=\"text-align:left;font-weight: bold; margin:0px;\"><span style=\"float:right;\">Total Amount : 800.00</span></p>\n" +
                 "\t   <p style=\"text-align:left;font-weight: bold; margin-top:10px;\"><font size=\"6\" ><span style=\"float:right;color:red;\">from<b> Sai Ram Drillers</b></span></font></p>\n" +
                 "\n" +
                 "\t  </div>\n" +
@@ -431,13 +397,20 @@ Vector<QuotationDo> vecQuotationDo=new Vector<>();
         String quotationhtmlinner="";
         for (int i=0;i<vecQuotationDo.size();i++)
         {
-            quotationhtmlinner=quotationhtmlinner+"          <tr>\n" +
-                    "            <td style=\"border-right: 1px solid #dddddd;border-left: 1px solid #dddddd;\">"+vecQuotationDo.get(i).idsn+"</td>\n" +
-                    "            <td style=\"border-right: 1px solid #dddddd;\">"+vecQuotationDo.get(i).range+" ft</td>\n" +
-                    "            <td style=\"border-right: 1px solid #dddddd;\">"+vecQuotationDo.get(i).feets+"</td>\n" +
-                    "\t\t\t <td style=\"border-right: 1px solid #dddddd;\">"+vecQuotationDo.get(i).rateperfeet+".00</td>\n" +
-                    "            <td style=\"border-right: 1px solid #dddddd;\">"+vecQuotationDo.get(i).rangeamount+"</td>\n" +
-                    "          </tr>\n";
+            if (vecQuotationDo.get(i).rateperfeet.equalsIgnoreCase("")||vecQuotationDo.get(i).rateperfeet.equalsIgnoreCase("0")||vecQuotationDo.get(i).rateperfeet==null)
+            {
+
+            }
+            else {
+                quotationhtmlinner=quotationhtmlinner+"          <tr>\n" +
+                        "            <td style=\"border-right: 1px solid #dddddd;border-left: 1px solid #dddddd;\">"+vecQuotationDo.get(i).idsn+"</td>\n" +
+                        "            <td style=\"border-right: 1px solid #dddddd;\">"+vecQuotationDo.get(i).range+" ft</td>\n" +
+                        "            <td style=\"border-right: 1px solid #dddddd;\">"+vecQuotationDo.get(i).feets+"</td>\n" +
+                        "\t\t\t <td style=\"border-right: 1px solid #dddddd;\">"+vecQuotationDo.get(i).rateperfeet+".00</td>\n" +
+                        "            <td style=\"border-right: 1px solid #dddddd;\">"+vecQuotationDo.get(i).rangeamount+"</td>\n" +
+                        "          </tr>\n";
+            }
+
         }
 
         return quotationhtmlinner;

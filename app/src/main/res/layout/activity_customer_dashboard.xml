@@ -30,76 +30,101 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
+                    android:layout_margin="5dp"
                     android:weightSum="5">
 
-                    <TextView
-                        android:id="@+id/tv_customername"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="5dp"
-                        android:layout_weight="2.5"
-                        android:gravity="center"
-                        android:lines="3"
-                        android:paddingLeft="10dp"
-                        android:paddingTop="5dp"
-                        android:text="Ar drillers"
-                        android:textColor="@color/black"
-                        android:textSize="30dp"
-                        android:textStyle="bold">
-
-                    </TextView>
 
                     <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="10dp"
-                        android:layout_weight="2"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:weightSum="3">
-
-                        <TextView
-                            android:id="@+id/tv_place"
+                        android:layout_width="match_parent"
+                        android:padding="5dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_height="wrap_content">
+                        <ImageView
                             android:layout_width="wrap_content"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:text="Secunderbad"
-                            android:textColor="@color/black"></TextView>
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_account_circle_black_70dp"
+                            android:scaleType="center"></ImageView>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:orientation="vertical">
+                            <TextView
+                                android:id="@+id/tv_customername"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center"
+                                android:text="Ar drillers"
+                                android:textColor="@color/black"
+                                android:textSize="30dp"
+                                android:textStyle="bold">
+                            </TextView>
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center_vertical"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:id="@+id/tv_place"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:drawableRight="@drawable/ic_location_on_black_24dp"
+                                    android:text="Secunderbad"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/black_lite"></TextView>
+                                <TextView
+                                    android:id="@+id/tv_datetime"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:layout_gravity="center_vertical"
+                                   android:layout_alignParentRight="true"
+                                    android:layout_centerVertical="true"
+                                    android:drawableLeft="@drawable/ic_access_time_black_24dp"
+                                    android:text="12jan2020/11:23pm"
+                                    android:textColor="@color/black_lite"></TextView>
+                            </RelativeLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
 
                         <TextView
                             android:id="@+id/tv_phonenumber"
                             android:layout_width="wrap_content"
-                            android:layout_height="0dp"
-                            android:layout_marginTop="5dp"
-                            android:layout_weight="1"
-                            android:gravity="center"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/ic_phone_white_24dp"
+                            android:gravity="right"
+                            android:layout_gravity="right"
                             android:text="9177779854"
-                            android:textColor="@color/black"></TextView>
+                            android:textStyle="bold"
+                            android:padding="7dp"
+                            android:layout_centerInParent="true"
+                            android:drawablePadding="5dp"
+                            android:textSize="20dp"
+                            android:textColor="@color/white"
+                            android:background="@drawable/textview_sty_yellow"></TextView>
 
-                        <TextView
-                            android:id="@+id/tv_datetime"
-                            android:layout_width="wrap_content"
-                            android:layout_height="0dp"
-                            android:layout_marginTop="5dp"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:text="12jan2020/11:23pm"
-                            android:textColor="@color/black"></TextView>
-
-                    </LinearLayout>
+                    </RelativeLayout>
 
                     <ImageView
                         android:id="@+id/iv_editcustomer"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_weight=".5"
                         android:padding="5dp"
-                        android:src="@drawable/ic_edit_black_24dp">
+                        android:src="@drawable/ic_edit_black_24dp"
+                        android:visibility="gone">
 
                     </ImageView>
 
@@ -114,11 +139,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:layout_marginTop="5dp"
                         android:layout_marginRight="5dp"
                         android:orientation="horizontal"
                         android:paddingLeft="10dp"
-                        android:paddingTop="10dp"
                         android:paddingRight="10dp"
                         android:weightSum="2">
 
@@ -212,7 +235,7 @@
                             android:background="@drawable/editext_sty_black"
                             android:padding="5dp"
                             android:text="20,000.00"
-                            android:textColor="@color/appcolor"
+                            android:textColor="@color/black"
                             android:textSize="25dp"
                             android:textStyle="bold">
 
@@ -264,20 +287,33 @@
                             android:layout_height="wrap_content"
                             android:text="New Payment Amount:"
                             android:textColor="@color/black"
+                            android:paddingBottom="5dp"
                             android:textSize="18dp" />
-
-                        <EditText
-                            android:id="@+id/et_newpayment"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
                             android:background="@drawable/editext_sty"
-                            android:hint="0.00"
-                            android:inputType="number"
-                            android:padding="5dp"
-                            android:textSize="25dp">
+                            android:gravity="center_vertical">
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_margin="10dp"
+                                android:src="@drawable/rupee"></ImageView>
+                            <EditText
+                                android:id="@+id/et_newpayment"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@null"
+                                android:hint="0.00"
+                                android:maxLength="6"
+                                android:inputType="number"
+                                android:padding="5dp"
+                                android:textSize="25dp">
+                            </EditText>
+                        </LinearLayout>
 
 
-                        </EditText>
 
                     </LinearLayout>
 
@@ -323,7 +359,8 @@
                         android:paddingLeft="5dp"
                         android:paddingRight="5dp"
                         android:text="Settle Pending Amount"
-                        android:textColor="@color/white">
+                        android:textColor="@color/white"
+                        android:visibility="gone">
 
                     </Button>
                 </LinearLayout>
@@ -373,7 +410,21 @@
 
         </androidx.cardview.widget.CardView>
 
-
+        <TextView
+            android:elevation="5dp"
+            android:background="@drawable/textview_sty_blue_circle"
+            android:id="@+id/tv_sendquote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="50dp"
+            android:layout_marginRight="15dp"
+            android:drawableLeft="@drawable/ic_send_black_24dp"
+            android:textSize="20dp"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:padding="18dp"></TextView>
     </RelativeLayout>
 
 

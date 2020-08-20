@@ -19,7 +19,7 @@ public class Database extends SQLiteOpenHelper
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-         db.execSQL("create table customer_table (customer_id text primary key,customer_name text,dateandtime text,customer_place text,customer_number text,totalamount text,Status text) ");
+         db.execSQL("create table customer_table (customer_id text primary key,customer_name text,dateandtime text,customer_place text,customer_number text,totalamount text,Status text,IsDeleted text) ");
         db.execSQL("create table payment_table (payment_id text primary key,customer_id text,dateandtime text,payment_type text,payment_amount text) ");
 
     }
