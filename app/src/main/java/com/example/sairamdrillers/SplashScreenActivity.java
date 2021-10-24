@@ -1,24 +1,19 @@
 package com.example.sairamdrillers;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.HashMap;
 
@@ -93,7 +88,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             }
             if (allpermissionsgranted)
             {
-                Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
+                Intent intent = new Intent(SplashScreenActivity.this, Dashboard.class);
                 startActivity(intent);
                 finish();
             }
@@ -140,7 +135,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         }
         if (allperforfirsttime)
         {
-            Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
+            Intent intent = new Intent(SplashScreenActivity.this, Dashboard.class);
             startActivity(intent);
             finish();
         }

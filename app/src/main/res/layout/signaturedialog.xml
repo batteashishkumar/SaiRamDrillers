@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@color/white">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:padding="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Signature"
+            android:textSize="20dp"
+            android:layout_weight="1"
+            android:textColor="@color/black_lite"
+            android:paddingLeft="30dp"></TextView>
+        <TextView
+            android:id="@+id/tv_clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Clear"
+            android:textStyle="bold"
+            android:padding="10dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/textview_sty_yellow"
+            android:textColor="@color/white"></TextView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_signature"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/signature_background"
+        android:orientation="horizontal"></LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|right"
+        android:gravity="center_vertical|right"
+        android:padding="10dp">
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CANCEL"
+            android:textColor="@color/white"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/textview_sty_grey"
+            android:padding="10dp"></TextView>
+        <TextView
+            android:id="@+id/tv_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="    OK    "
+            android:textStyle="bold"
+            android:padding="10dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/textview_sty_yellow"
+            android:textColor="@color/white"></TextView>
+    </LinearLayout>
+</LinearLayout>

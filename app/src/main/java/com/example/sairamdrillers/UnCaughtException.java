@@ -1,8 +1,6 @@
 package com.example.sairamdrillers;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Environment;
 import android.util.Log;
 
@@ -72,7 +70,7 @@ public class UnCaughtException implements Thread.UncaughtExceptionHandler {
             writer_out.append(report);
             writer_out.close();
             fileOutputStream.close();
-            new MainActivity().closeapp();
+            new Dashboard().closeapp();
 
         }
         catch (Exception ef)

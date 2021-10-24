@@ -8,7 +8,7 @@
     android:layout_gravity="center"
     android:background="@color/colorAccent"
     android:gravity="center"
-    tools:context=".MainActivity">
+    tools:context=".Dashboard">
 
     <ImageView
         android:id="@+id/imageView"

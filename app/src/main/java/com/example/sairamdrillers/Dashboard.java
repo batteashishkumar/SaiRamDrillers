@@ -1,10 +1,9 @@
 package com.example.sairamdrillers;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,15 +12,10 @@ import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.RectF;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -31,68 +25,80 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.sairamdrillers.databinding.ActivityMainBinding;
+import com.example.sairamdrillers.room.Appdatabase;
+import com.example.sairamdrillers.room.Customer;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.PageSize;
-import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.tool.xml.XMLWorkerHelper;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-import static androidx.recyclerview.widget.ItemTouchHelper.ACTION_STATE_SWIPE;
-
-public class MainActivity extends Base {
+public class Dashboard extends Base {
 RecyclerView recyclerView;
 Vector<CustomerDo> vecCustomers=new Vector<>();
+    List<Customer> vecCustomersRoom=null;
     private StorageReference mStorageRef;
-TextView tv_totalamt,tv_pendingamt,tv_writequote;
+TextView tv_totalamt,tv_pendingamt,tv_writequote,tv_Bill;
     private boolean swipeBack = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        ActivityMainBinding binding= DataBindingUtil.setContentView(this,R.layout.activity_main);
+        binding.setDashboardviewmodel(new DashboardViewModel());
         recyclerView = (RecyclerView) findViewById(R.id.rv);
         tv_totalamt=findViewById(R.id.tv_totalamt);
         tv_pendingamt=findViewById(R.id.tv_pendingamt);
         tv_writequote=findViewById(R.id.tv_writequote);
+        tv_Bill=findViewById(R.id.tv_Bill);
         mStorageRef = FirebaseStorage.getInstance().getReference();
         Thread.setDefaultUncaughtExceptionHandler(new UnCaughtException(
-                MainActivity.this, this));
+                Dashboard.this, this));
 
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        TextView tv_create=findViewById(R.id.tv_create);
-        tv_create.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), CreateCustomer.class);
-                startActivity(i);
-
-            }
-        });
+//        TextView tv_create=findViewById(R.id.tv_create);
+//        tv_create.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent i = new Intent(getApplicationContext(), CreateCustomer.class);
+//                startActivity(i);
+//
+//            }
+//        });
 
         tv_writequote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                    Intent intent=new Intent(MainActivity.this,PdfList.class);
+                    Intent intent=new Intent(Dashboard.this,PdfList.class);
                     startActivity(intent);
                 } else {
-                    ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+                    ActivityCompat.requestPermissions(Dashboard.this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
                 }
+            }
+        });
+        tv_Bill.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tv_Bill.setClickable(false);
+                tv_Bill.setClickable(false);
+
+                Intent intent=new Intent(getApplicationContext(),Billing_Entry.class);
+                startActivity(intent);
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        tv_Bill.setClickable(true);
+                        tv_Bill.setClickable(true);
+                    }
+                },1000);
             }
         });
 
@@ -116,7 +122,7 @@ TextView tv_totalamt,tv_pendingamt,tv_writequote;
             public void onSwiped(final RecyclerView.ViewHolder viewHolder, int direction) {
                 // Row is swiped from recycler view
                 // remove it from adapter
-                Dialoginstance dialoginstance=new Dialoginstance(MainActivity.this,80,25,"ALERT!!","Are you sure want to delete this customer?");//dont use getapplicationcontext()
+                Dialoginstance dialoginstance=new Dialoginstance(Dashboard.this,80,25,"ALERT!!","Are you sure want to delete this customer?");//dont use getapplicationcontext()
                 final Dialog dialog=dialoginstance.getdialoginstance();
                 Button btn_no=dialoginstance.getBtn_ok();
                 btn_no.setText("NO");
@@ -212,12 +218,18 @@ TextView tv_totalamt,tv_pendingamt,tv_writequote;
         tv_totalamt.setText(totalamt+".0");
         tv_pendingamt.setText(pending+".0");
         vecCustomers=new CustomerDA(this).getallCustomers();
+        try {
+            vecCustomersRoom= Appdatabase.getdbINSTANCE(getApplicationContext()).customerDao().getallCustomersRoom();
+        }catch (Exception e){
+
+        }
+
         recyclerView.setAdapter(new MyAdapter(vecCustomers));
 
     }
 
     public void closeapp() {
-        Toast.makeText(MainActivity.this,"UncaughtException:Check report",Toast.LENGTH_LONG).show();
+        Toast.makeText(Dashboard.this,"UncaughtException:Check report",Toast.LENGTH_LONG).show();
     }
 
     public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
@@ -288,7 +300,7 @@ TextView tv_totalamt,tv_pendingamt,tv_writequote;
                 if (pending<=0)
                 {
                     holder.tv_status.setText("Completed");
-                    holder.tv_status.setBackground(ContextCompat.getDrawable(MainActivity.this,R.drawable.textview_sty_green));
+                    holder.tv_status.setBackground(ContextCompat.getDrawable(Dashboard.this,R.drawable.textview_sty_green));
                     holder.tv_pending.setTextColor(getResources().getColor(R.color.green));
 
                 }
@@ -297,7 +309,7 @@ TextView tv_totalamt,tv_pendingamt,tv_writequote;
                 else
                 {
                     holder.tv_status.setText("Pending");
-                    holder.tv_status.setBackground(ContextCompat.getDrawable(MainActivity.this,R.drawable.textview_sty_red));
+                    holder.tv_status.setBackground(ContextCompat.getDrawable(Dashboard.this,R.drawable.textview_sty_red));
                     holder.tv_pending.setTextColor(getResources().getColor(R.color.red));
                 }
             }

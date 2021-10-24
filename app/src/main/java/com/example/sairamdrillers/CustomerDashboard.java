@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -57,6 +58,7 @@ public class CustomerDashboard extends Base {
         tv_totalamt=findViewById(R.id.tv_totalamt);
         tv_pendingamt=findViewById(R.id.tv_pendingamt);
         tv_amountpaid=findViewById(R.id.tv_amountpaid);
+
 
         iv_editcustomer=findViewById(R.id.iv_editcustomer);
 
@@ -177,6 +179,8 @@ public class CustomerDashboard extends Base {
                 startActivity(intent);
             }
         });
+
+
     }
 
     private void loaddata() {
