@@ -42,7 +42,7 @@ public class Dashboard extends Base {
 RecyclerView recyclerView;
 Vector<CustomerDo> vecCustomers=new Vector<>();
     List<Customer> vecCustomersRoom=null;
-    private StorageReference mStorageRef;
+//    private StorageReference mStorageRef;
 TextView tv_totalamt,tv_pendingamt,tv_writequote,tv_Bill;
     private boolean swipeBack = false;
     @Override
@@ -55,7 +55,7 @@ TextView tv_totalamt,tv_pendingamt,tv_writequote,tv_Bill;
         tv_pendingamt=findViewById(R.id.tv_pendingamt);
         tv_writequote=findViewById(R.id.tv_writequote);
         tv_Bill=findViewById(R.id.tv_Bill);
-        mStorageRef = FirebaseStorage.getInstance().getReference();
+//        mStorageRef = FirebaseStorage.getInstance().getReference();
         Thread.setDefaultUncaughtExceptionHandler(new UnCaughtException(
                 Dashboard.this, this));
 
@@ -169,22 +169,22 @@ TextView tv_totalamt,tv_pendingamt,tv_writequote,tv_Bill;
 
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
 
-        Uri uri = Uri.fromFile(new File(getDatabasePath("sqlite.db").getPath()));
-        StorageReference riversRef = mStorageRef.child("database/sqlite.db");
-        riversRef.putFile(uri)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-                        Toast.makeText(getApplicationContext(),"Success",Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        Toast.makeText(getApplicationContext(),"Failure",Toast.LENGTH_SHORT).show();
-                    }
-                });
+//        Uri uri = Uri.fromFile(new File(getDatabasePath("sqlite.db").getPath()));
+//        StorageReference riversRef = mStorageRef.child("database/sqlite.db");
+//        riversRef.putFile(uri)
+//                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//                    @Override
+//                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//
+//                        Toast.makeText(getApplicationContext(),"Success",Toast.LENGTH_SHORT).show();
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception exception) {
+//                        Toast.makeText(getApplicationContext(),"Failure",Toast.LENGTH_SHORT).show();
+//                    }
+//                });
 
 
 
