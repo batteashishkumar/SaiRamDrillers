@@ -1,6 +1,5 @@
 package com.example.sairamdrillers;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,11 +16,9 @@ import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.PageSize;
@@ -45,7 +42,10 @@ RecyclerView rv_Quotation;
 LinearLayout ll_quotationswipe,addquote;
 Vector<QuotationDo> vecQuotationDo=new Vector<>();
     QuotationAdapter quotationAdapter=new QuotationAdapter();
-    EditText ev_rangelower,ev_rangehigher,et_seveninchpipes,et_teninchpipes,et_seveninchpipesamount,et_teninchpipesamount,et_flushingamount,et_labourandtransportamount;
+    EditText ev_rangelower,ev_rangehigher, et_twoinchpipes, et_twoinchpipesamount,et_flushingamount,et_labourandtransportamount,et_remarks,et_TotalAmount,et_billType;
+    EditText et_caseingOne,et_oneinchpipes,et_caseingOneFeets,et_caseingOnePrice,et_oneinchpipesamount;
+    EditText et_caseingTwo,et_caseingTwoFeets,et_caseingTwoPrice;
+    EditText et_caseingThree,et_Threeinchpipes,et_caseingThreeFeets,et_caseingThreePrice,et_Threeinchpipesamount;
     CustomerDo customerDo=new CustomerDo();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,12 +56,33 @@ Vector<QuotationDo> vecQuotationDo=new Vector<>();
             customerDo= new CustomerDo();
         rv_Quotation=findViewById(R.id.rv_Quotation);
         ll_quotationswipe=findViewById(R.id.ll_quotationswipe);
-        et_seveninchpipes=findViewById(R.id.et_seveninchpipes);
-        et_teninchpipes=findViewById(R.id.et_teninchpipes);
-        et_seveninchpipesamount=findViewById(R.id.et_seveninchpipesamount);
-        et_teninchpipesamount=findViewById(R.id.et_teninchpipesamount);
+
+        et_caseingOne = findViewById(R.id.et_caseingOne);
+        et_oneinchpipes =findViewById(R.id.et_oneinchpipes);
+        et_caseingOneFeets = findViewById(R.id.et_caseingOneFeets);
+        et_caseingOnePrice = findViewById(R.id.et_caseingOnePrice);
+        et_oneinchpipesamount =findViewById(R.id.et_oneinchpipesamount);
+
+        et_caseingTwo = findViewById(R.id.et_caseingTwo);
+        et_twoinchpipes =findViewById(R.id.et_twoinchpipes);
+        et_caseingTwoFeets = findViewById(R.id.et_caseingTwoFeets);
+        et_caseingTwoPrice = findViewById(R.id.et_caseingTwoPrice);
+        et_twoinchpipesamount =findViewById(R.id.et_twoinchpipesamount);
+
+        et_caseingThree = findViewById(R.id.et_caseingThree);
+        et_Threeinchpipes=findViewById(R.id.et_Threeinchpipes);
+        et_caseingThreeFeets = findViewById(R.id.et_caseingThreeFeets);
+        et_caseingThreePrice = findViewById(R.id.et_caseingThreePrice);
+        et_Threeinchpipesamount=findViewById(R.id.et_Threeinchpipesamount);
+        et_billType=findViewById(R.id.et_billType);
+
+        et_remarks=findViewById(R.id.et_remarks);
         et_flushingamount=findViewById(R.id.et_flushingamount);
         et_labourandtransportamount=findViewById(R.id.et_labourandtransportamount);
+
+
+        et_TotalAmount=findViewById(R.id.et_TotalAmount);
+
         addquote=findViewById(R.id.addquote);
         rv_Quotation.setHasFixedSize(true);
         rv_Quotation.setLayoutManager(new LinearLayoutManager(this));
@@ -353,13 +374,13 @@ Vector<QuotationDo> vecQuotationDo=new Vector<>();
                 "      <div style=\"text-align: center; margin-bottom: 30px; margin-top: 10px;\">\n" +
                 "\t\n" +
                 "        <h1 style=\"color:red;\">SAI RAM DRILLERS</h1>\n" +
-                "\t<h3>SIDDI VINAYAKA BOREWELLS</h3>\n" +
+                "\t<h3 style=\"color:grey;\">OM SIDDI VINAYAKA <b style=\"color:red;\">ROBO</b> BOREWELLS</h3>\n" +
                 "\t<p><font size=\"3\"  >Drilling of 6 1/2' Dia Hydraulic Rig</font></p>\n" +
                 "<p><font size=\"3\"  >Office1:LB nagar Ring Road Hyderabad.</font></p>\n" +
                 "<p><font size=\"3\"  >Office2:12-10-587/50/19,Warasiguda,Sec-bad.</font></p>\n" +
                 "<p><font size=\"3\"  >Web:www.siddivinayakaborewells.com &nbsp;&nbsp; Mail:sathyambatte@gmail.com</font></p>\n" +
                 "<p><font size=\"4\" style=\"letter-spacing: 2px; \" ><b>Cell:9866018726,9000906888.</b></font></p>\n" +
-                "\t<h3 style=\"letter-spacing: 1px;padding: 4px; margin: 4px; \"><u>QUOTATION</u></h3>\n" +
+                "\t<h3 style=\"letter-spacing: 1px;padding: 4px; margin: 4px; \"><u>"+et_billType.getText().toString().toUpperCase()+"</u></h3>\n" +
                 "\t\n" +
                 "      </div>\n" +
                 "\t  \n" +
@@ -378,12 +399,14 @@ Vector<QuotationDo> vecQuotationDo=new Vector<>();
                 "        </table>\n" +
                 "      </div>\n" +
                 "\t  <div style=\"margin-left: 15px;margin-top: 15px;\">\n" +
-                "\t  <p style=\"text-align:left;font-weight: bold;  margin-right: 15px;\">7\" "+et_seveninchpipes.getText().toString()+" Per Feet<span style=\"float:right;\">Amount : "+et_seveninchpipesamount.getText().toString()+".00</span></p>\n" +
-                "\t  <p style=\"text-align:left;font-weight: bold;  margin-right: 15px;\">10\" "+et_teninchpipes.getText().toString()+" Per Feet<span style=\"float:right;\">Amount : "+et_teninchpipesamount.getText().toString()+".00</span></p>\n" +
+                "\t  <p style=\"text-align:left;font-weight: bold;  margin-right: 15px;\">"+et_caseingOne.getText().toString()+"' " + et_oneinchpipes.getText().toString()+" Per Ft price("+et_caseingOnePrice.getText().toString()+") X Total ft("+et_caseingOneFeets.getText().toString()+")<span style=\"float:right;\"> : "+ et_oneinchpipesamount.getText().toString()+".00</span></p>\n" +
+                "\t  <p style=\"text-align:left;font-weight: bold;  margin-right: 15px;\">"+et_caseingTwo.getText().toString()+"' " + et_twoinchpipes.getText().toString()+" Per Ft price("+et_caseingTwoPrice.getText().toString()+") X Total ft("+et_caseingTwoFeets.getText().toString()+")<span style=\"float:right;\"> : "+ et_twoinchpipesamount.getText().toString()+".00</span></p>\n" +
+                "\t  <p style=\"text-align:left;font-weight: bold;  margin-right: 15px;\">"+et_caseingThree.getText().toString()+"' " + et_Threeinchpipes.getText().toString()+" Per Ft price("+et_caseingThreePrice.getText().toString()+") X Total ft("+et_caseingThreeFeets.getText().toString()+")<span style=\"float:right;\"> : "+ et_Threeinchpipesamount.getText().toString()+".00</span></p>\n" +
+                "\t  <p style=\"text-align:left;font-weight: bold;  margin-right: 15px;\"> "+et_remarks.getText().toString()+"</p>\n" +
                 "\t  <p style=\"text-align:left;font-weight: bold;  margin-right: 15px;\">Flushing 6 1/2\" Borewells Per Feet<span style=\"float:right;\">Amount : "+et_flushingamount.getText().toString()+".00</span></p>\n" +
                 "\t  <p style=\"text-align:left;font-weight: bold;  margin-right: 15px;\">Transport and Labour Charges<span style=\"float:right;\">Amount : "+et_labourandtransportamount.getText().toString()+".00</span></p>\n" +
                 "\t  \n" +
-//                "\t  <p style=\"text-align:left;font-weight: bold; margin:0px;\"><span style=\"float:right;\">Total Amount : 800.00</span></p>\n" +
+                "\t  <p style=\"text-align:left;font-weight: bold; margin:0px;\"><span style=\"float:right;color:red;\">Total Amount : "+et_TotalAmount.getText().toString()+".00</span></p>\n" +
                 "\t   <p style=\"text-align:left;font-weight: bold; margin-top:10px;\"><font size=\"6\" ><span style=\"float:right;color:red;\">from<b> Sai Ram Drillers</b></span></font></p>\n" +
                 "\n" +
                 "\t  </div>\n" +
