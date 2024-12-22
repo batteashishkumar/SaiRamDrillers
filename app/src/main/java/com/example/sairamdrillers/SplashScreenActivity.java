@@ -7,9 +7,12 @@ import androidx.core.content.ContextCompat;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
+import android.provider.Settings;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -86,6 +89,18 @@ public class SplashScreenActivity extends AppCompatActivity {
                     break;
                 }
             }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                if (!Environment.isExternalStorageManager()) {
+                    Intent intent = new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+                    intent.setData(Uri.parse("package:" + getPackageName()));
+                    startActivity(intent);
+                }
+            }
+            if (permissions.length == 1){
+                if (permissions[0].equalsIgnoreCase("android.permission.MANAGE_EXTERNAL_STORAGE") ){
+                    allpermissionsgranted=true;
+                }
+            }
             if (allpermissionsgranted)
             {
                 Intent intent = new Intent(SplashScreenActivity.this, Dashboard.class);
@@ -95,6 +110,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             else
             {
 //               permissionrequest();
+
             }
         }
 
